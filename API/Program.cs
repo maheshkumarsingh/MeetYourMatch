@@ -14,7 +14,15 @@ public class Program
         {
             opt.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection"));
         });
+        builder.Services.AddCors();
         var app = builder.Build();
+        
+        app.UseCors(opt => opt.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .WithOrigins("http://localhost:4200", 
+                              "https://localhost:4200"));
+        
+        app.UseRouting();  // Uncommenting this line for routing
 
         if (app.Environment.IsDevelopment())
         {
