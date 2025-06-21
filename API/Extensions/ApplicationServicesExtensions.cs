@@ -1,11 +1,8 @@
 ﻿using API.Data;
 using API.ServiceContracts;
 using API.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace API.Extensions;
 
@@ -26,6 +23,8 @@ public static class ApplicationServicesExtensions
         });
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         return services;
     }
 }

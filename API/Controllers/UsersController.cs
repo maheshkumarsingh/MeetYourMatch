@@ -1,45 +1,44 @@
 ﻿using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.ServiceContracts;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers;
+namespace API.Controllers;
+
+[Authorize]
 public class UsersController : BaseAPIController
 {
-    private readonly DataContext _context;
-    public UsersController(DataContext context)
+    private readonly IUserRepository _userRepository;
+
+    public UsersController(IUserRepository userRepository)
     {
-        _context = context;
+        _userRepository = userRepository;
     }
 
-    // Explicitly mark this method as [AllowAnonymous] since it should be accessible without authorization.
-    [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
     {
-        var users = await _context.AppUsers.ToListAsync();
-        if (users == null || !users.Any())
-        {
-            return NotFound("No users found.");
-        }
-        return Ok(users);
+        var members = await _userRepository.GetMembersAsync();
+        return Ok(members);
     }
 
     # region comments
         // Keep [Authorize] for this method to ensure it requires authentication.
         //[HttpGet("get-user/{id}")]
     #endregion
-    [Authorize]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUser(int id)
+    [HttpGet("{username}")]
+    public async Task<ActionResult<MemberDTO>> GetUser(string username)
     {
-        var user = await _context.AppUsers.FindAsync(id);
-        if (user == null)
+        var memberDTO = await _userRepository.GetMemberAsync(username);
+        if (memberDTO == null)
         {
             return NotFound("No user found.");
         }
-        return Ok(user);
+        return Ok(memberDTO);
     }
 }
