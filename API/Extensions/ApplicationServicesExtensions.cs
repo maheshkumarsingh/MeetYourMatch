@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Helpers;
 using API.ServiceContracts;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,9 @@ public static class ApplicationServicesExtensions
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPhotoService, PhotoService>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
         return services;
     }
 }

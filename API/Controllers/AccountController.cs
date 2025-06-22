@@ -80,7 +80,8 @@ public class AccountController : BaseAPIController
         var userDTO = new UserDTO
         {
             UserName = user.UserName,
-            Token = _tokenService.CreateToken(user)
+            Token = _tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
         };
         return Ok(userDTO);
     }
