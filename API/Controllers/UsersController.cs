@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.ServiceContracts;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -23,10 +24,13 @@ public class UsersController : BaseAPIController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery] UserParams userParams)
     {
-        var members = await _userRepository.GetMembersAsync();
-        return Ok(members);
+        userParams.CurrentUserName = User.GetUserName();
+        var users = await _userRepository.GetMembersAsync(userParams);
+        Response.AddPaginationHeader(users);
+
+        return Ok(users);
     }
 
     #region comments
@@ -118,7 +122,7 @@ public class UsersController : BaseAPIController
             return BadRequest($"Error: {result.Error.Message}");
 
         user.Photos.Remove(photo);
-        if(await _userRepository.SaveAllAsync())
+        if (await _userRepository.SaveAllAsync())
             return NoContent();
         return BadRequest("Photo not deleted");
     }

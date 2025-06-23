@@ -45,6 +45,7 @@ public class AccountController : BaseAPIController
             UserName = user.UserName,
             Token = _tokenService.CreateToken(user),
             KnownAs = user.KnownAs,
+            Gender = user.Gender,
         };
         return Ok(userDTO);
     }
@@ -59,7 +60,6 @@ public class AccountController : BaseAPIController
         var user = await _userRepository.GetUserByUsernameAsync(request.UserName);
         if (user is null)
             return Unauthorized("Invalid username");
-
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
@@ -71,6 +71,7 @@ public class AccountController : BaseAPIController
         {
             UserName = user.UserName,
             KnownAs = user.KnownAs,
+            Gender = user.Gender,
             Token = _tokenService.CreateToken(user),
             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
         };
