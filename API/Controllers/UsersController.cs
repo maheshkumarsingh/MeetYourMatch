@@ -23,6 +23,7 @@ public class UsersController : BaseAPIController
         _photoService = photoService;
     }
 
+    //[Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers([FromQuery] UserParams userParams)
     {
@@ -37,6 +38,7 @@ public class UsersController : BaseAPIController
     // Keep [Authorize] for this method to ensure it requires authentication.
     //[HttpGet("get-user/{id}")]
     #endregion
+    //[Authorize(Roles ="Member")]
     [HttpGet("{username}")]
     public async Task<ActionResult<MemberDTO>> GetUser(string username)
     {
@@ -53,6 +55,8 @@ public class UsersController : BaseAPIController
         var user = await _userRepository.GetUserByUsernameAsync(User.GetUserName());
         if (user is null)
             return BadRequest("Couldnot find user");
+        if(memberUpdate.KnownAs is null)
+            memberUpdate.KnownAs = user.KnownAs;
         _mapper.Map(memberUpdate, user);
         if (await _userRepository.SaveAllAsync())
             return NoContent();

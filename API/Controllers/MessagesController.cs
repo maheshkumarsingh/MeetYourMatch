@@ -31,7 +31,7 @@ public class MessagesController : BaseAPIController
             return BadRequest("You cannot message yourself");
         var sender = await _userRepository.GetUserByUsernameAsync(userName);
         var recipient = await _userRepository.GetUserByUsernameAsync(messageDTO.RecipientUserName);
-        if (recipient is null || sender is null)
+        if (recipient is null || sender is null || sender.UserName is null || recipient.UserName is null)
             return BadRequest("Cannot send a message this time");
         var message = new Message
         {

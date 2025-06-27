@@ -14,15 +14,15 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
 {
     public async Task<MemberDTO?> GetMemberAsync(string username)
     {
-        return await context.AppUsers
-            .Where(x => x.UserName.ToLower() == username.ToLower())
+        return await context.Users
+            .Where(x => x.UserName == username)
             .ProjectTo<MemberDTO>(mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
     }
 
     public async Task<PagedList<MemberDTO>> GetMembersAsync(UserParams userParams)
     {
-        var query = context.AppUsers
+        var query = context.Users
                         .AsQueryable();
                         
         query = query.Where(x => x.UserName.ToLower() != userParams.CurrentUserName!.ToLower());
@@ -45,12 +45,12 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
 
     public async Task<AppUser?> GetUserByIdAsync(int id)
     {
-        return await context.AppUsers.FindAsync(id);
+        return await context.Users.FindAsync(id);
     }
 
     public async Task<AppUser?> GetUserByUsernameAsync(string username)
     {
-        return await context.AppUsers
+        return await context.Users
                             .Include(x => x.Photos)
                             .FirstOrDefaultAsync(x => x.UserName.ToLower() == username.ToLower());
 
@@ -58,7 +58,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
 
     public async Task<IEnumerable<AppUser>> GetUsersAsync()
     {
-        return await context.AppUsers
+        return await context.Users
                             .Include(x => x.Photos)
                             .ToListAsync();
     }
