@@ -2,6 +2,7 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ public class Program
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseCors(opt => opt.AllowAnyHeader()
                               .AllowAnyMethod()
+                              .AllowCredentials()
                               .WithOrigins("http://localhost:4200",
                               "https://localhost:4200"));
 
@@ -38,7 +40,7 @@ public class Program
 
         app.UseHttpsRedirection();
         app.MapControllers();
-
+        app.MapHub<PresenceHub>("hubs/Presence");
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;
         try
