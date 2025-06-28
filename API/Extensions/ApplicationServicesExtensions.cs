@@ -2,6 +2,7 @@
 using API.Helpers;
 using API.ServiceContracts;
 using API.Services;
+using API.SignalR.PresenceHub;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,6 +33,7 @@ public static class ApplicationServicesExtensions
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
         services.AddSignalR();
+        services.AddSingleton<PresenceTracker>();
         return services;
     }
 }

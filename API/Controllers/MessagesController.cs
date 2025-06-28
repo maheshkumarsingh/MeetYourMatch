@@ -27,10 +27,10 @@ public class MessagesController : BaseAPIController
     public async Task<ActionResult<MessageDTO>> CreateMessage(CreateMessageDTO messageDTO)
     {
         var userName = User.GetUserName();
-        if (userName.ToLower() == messageDTO.RecipientUserName.ToLower())
+        if (userName.ToLower() == messageDTO.RecipientUsername.ToLower())
             return BadRequest("You cannot message yourself");
         var sender = await _userRepository.GetUserByUsernameAsync(userName);
-        var recipient = await _userRepository.GetUserByUsernameAsync(messageDTO.RecipientUserName);
+        var recipient = await _userRepository.GetUserByUsernameAsync(messageDTO.RecipientUsername);
         if (recipient is null || sender is null || sender.UserName is null || recipient.UserName is null)
             return BadRequest("Cannot send a message this time");
         var message = new Message
@@ -42,7 +42,7 @@ public class MessagesController : BaseAPIController
             Content = messageDTO.Content
         };
 
-        _messageRepository.AddMesage(message);
+        _messageRepository.AddMessage(message);
         if(await _messageRepository.SaveAllAsync())
             return Ok(_mapper.Map<MessageDTO>(message));
         return BadRequest("Failed to send message");
@@ -78,7 +78,7 @@ public class MessagesController : BaseAPIController
             message.RecipientDeleted = true;
         if(message is { SenderDeleted:true, RecipientDeleted:true})
         {
-            _messageRepository.DeleteMesage(message);
+            _messageRepository.DeleteMessage(message);
         }
         if (await _messageRepository.SaveAllAsync())
             return Ok();
