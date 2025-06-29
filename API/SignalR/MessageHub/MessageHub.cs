@@ -117,8 +117,8 @@ public class MessageHub : Hub
         if (connection is not null && group is not null)
         {
             _messageRepository.RemoveConnection(connection);
-            await _messageRepository.SaveAllAsync();
-            return group;
+            if(await _messageRepository.SaveAllAsync())
+                return group;
         }
         throw new HubException("failed to remove from group");
     }

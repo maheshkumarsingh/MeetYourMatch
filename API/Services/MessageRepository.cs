@@ -43,9 +43,9 @@ public class MessageRepository : IMessageRepository
     public async Task<Group?> GetGroupForConnection(string connectionId)
     {
         return await _dataContext.Groups
-            .Include(x=>x.Connections)
-            .Where(x=> x.Connections.Any(c=>
-            c.ConnectionId == connectionId))
+            .Include(x => x.Connections)
+            .Where(x => x.Connections
+            .Any(c => c.ConnectionId == connectionId))
             .FirstOrDefaultAsync();
     }
 
@@ -57,8 +57,8 @@ public class MessageRepository : IMessageRepository
     public async Task<Group?> GetMessageGroup(string groupName)
     {
         return await _dataContext.Groups
-                    .Include(x=>x.Connections)
-                    .FirstOrDefaultAsync(x=>x.Name==groupName);
+                    .Include(x => x.Connections)
+                    .FirstOrDefaultAsync(x => x.Name == groupName);
     }
 
     public async Task<PagedList<MessageDTO>> GetMessagesForUser(MessageParams messageParams)
@@ -67,10 +67,10 @@ public class MessageRepository : IMessageRepository
                     .AsQueryable();
         query = messageParams.Container switch
         {
-            "Inbox" => query.Where(x => x.Recipient.UserName == messageParams.UserName && x.RecipientDeleted==false),
+            "Inbox" => query.Where(x => x.Recipient.UserName == messageParams.UserName && x.RecipientDeleted == false),
             "Outbox" => query.Where(x => x.Sender.UserName == messageParams.UserName && x.SenderDeleted == false),
             _ => query.Where(x => x.Recipient.UserName == messageParams.UserName && x.DateRead == null
-                        && x.RecipientDeleted==false ),
+                        && x.RecipientDeleted == false),
         };
         var messages = query.ProjectTo<MessageDTO>(_mapper.ConfigurationProvider);
         return await PagedList<MessageDTO>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
@@ -81,7 +81,7 @@ public class MessageRepository : IMessageRepository
         var messages = await _dataContext.Messages
             //.Include(x => x.Sender).ThenInclude(x => x.Photos)
             //.Include(x => x.Recipient).ThenInclude(x => x.Photos)
-            .Where(x => (x.RecipientUserName == currentUserName && x.RecipientDeleted==false && x.SenderUserName == recipientUserName) ||
+            .Where(x => (x.RecipientUserName == currentUserName && x.RecipientDeleted == false && x.SenderUserName == recipientUserName) ||
                         (x.SenderUserName == currentUserName && x.SenderDeleted == false && x.RecipientUserName == recipientUserName))
             .OrderBy(x => x.CreatedAt)
             .ProjectTo<MessageDTO>(_mapper.ConfigurationProvider)
