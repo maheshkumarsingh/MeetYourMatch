@@ -14,7 +14,7 @@ public static class ApplicationServicesExtensions
     {
         services.AddDbContext<DataContext>(opt =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("ProdConnection"));
+            opt.UseSqlServer(configuration.GetConnectionString("DBConnection"));
         });
         services.AddHttpClient();
         services.AddApiVersioning(options =>
