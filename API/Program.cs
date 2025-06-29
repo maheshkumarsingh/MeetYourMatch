@@ -32,6 +32,9 @@ public class Program
         app.UseAuthorization();
         app.UseApiVersioning();
 
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -41,6 +44,9 @@ public class Program
         app.MapControllers();
         app.MapHub<PresenceHub>("hubs/Presence");
         app.MapHub<MessageHub>("hubs/Message");
+
+        app.MapFallbackToController("Index", "Fallback");
+
         using var scope = app.Services.CreateScope();
         var services = scope.ServiceProvider;
         try
