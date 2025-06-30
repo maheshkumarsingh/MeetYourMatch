@@ -1,14 +1,15 @@
 # MeetYourMatch 💖  
 **A full-stack dating web application built with ASP.NET Core 8 and Angular 18**
 
-![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![Angular](https://img.shields.io/badge/Angular-18-red) ![License](https://img.shields.io/badge/license-MIT-brightgreen)  
-Real-time, responsive, and secure matchmaking web application with chat, photo uploads, and full authentication.
+![.NET](https://img.shields.io/badge/.NET-8.0-blueviolet) ![Angular](https://img.shields.io/badge/Angular-18-red) ![Deployed](https://img.shields.io/badge/Deployed-Azure-blue) ![License](https://img.shields.io/badge/license-MIT-brightgreen)
+
+> 🔗 **Live Demo**: [https://meet-your-match.azurewebsites.net](https://meet-your-match.azurewebsites.net)
 
 ---
 
 ## 🌟 Overview
 
-**MeetYourMatch** is a complete web application developed from scratch using the latest technologies in full-stack development — **.NET 8**, **Entity Framework Core**, and **Angular 18**. This project demonstrates real-world practices like authentication, authorization, real-time messaging, clean architecture, and deployment.
+**MeetYourMatch** is a real-world, full-stack web application built using the latest versions of **.NET 8** and **Angular 18**. It simulates a modern matchmaking platform with real-time chat, role-based authentication, photo uploads, and a rich user experience.
 
 ---
 
@@ -16,56 +17,116 @@ Real-time, responsive, and secure matchmaking web application with chat, photo u
 
 ### 🖥️ Frontend – Angular 18
 - Angular CLI & RxJS
-- Angular Reactive Forms & Template Forms
+- Angular Reactive & Template Forms
 - ngx-bootstrap, ngx-toastr, ng-gallery
 - Bootstrap 5 + Bootswatch Vapor theme
-- Font Awesome for icons
-- SignalR for real-time messaging
-- JWT handling and route guards
+- Font Awesome icons
+- SignalR for real-time features
+- Route guards and JWT handling
 
 ### 🔙 Backend – ASP.NET Core 8
 - ASP.NET Core Web API
-- Entity Framework Core 8 with Code First
+- Entity Framework Core 8
 - AutoMapper
-- ASP.NET Identity for authentication
-- Role-based Authorization (Admin/User)
-- JWT Token generation and validation
-- Cloudinary integration for media storage
-- SignalR for presence and messaging
-- Global exception handling
+- ASP.NET Core Identity (User + Role Management)
+- JWT Authentication & Authorization
+- SignalR (chat, presence)
+- Cloudinary integration
+- API Versioning + Global Exception Handling
 
 ---
 
 ## 🔐 Key Features
 
-✅ User Registration & Login  
-✅ JWT-based Authentication & Authorization  
-✅ Role-based access (Admin/User)  
-✅ Real-time presence & private chat with SignalR  
-✅ Profile photo uploads (Cloudinary integration)  
-✅ Match list with Filters, Sorting, Pagination  
-✅ Responsive UI using Bootswatch Theme  
-✅ Form validation with reactive forms  
-✅ Centralized error handling on API & UI  
-✅ Hosted on both Linux (Nginx) and Windows (IIS)
-
----
-
-## 📸 Screenshots
-
-> Coming soon...
+- ✅ JWT-based User Authentication
+- ✅ Role-Based Access Control (Admin/User)
+- ✅ Real-Time Messaging and Presence with SignalR
+- ✅ Drag-and-drop Profile Photo Upload (Cloudinary)
+- ✅ Filtering, Sorting, and Pagination
+- ✅ Responsive UI with Bootswatch themes
+- ✅ Reactive + Template Forms with Validation
+- ✅ Centralized Error Handling (UI + API)
+- ✅ Hosted on Azure App Service (Free Tier)
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
-- [Node.js & npm](https://nodejs.org/)
-- [Angular CLI](https://angular.io/cli)
-- SQL Server (local or Docker)
-- Cloudinary account (for image uploads)
+### 🔙 Backend Setup (ASP.NET Core API)
+1. Navigate to the API project:
+    ```bash
+    cd API
+    ```
+2. Restore packages:
+    ```bash
+    dotnet restore
+    ```
+3. Update the database:
+    ```bash
+    dotnet ef database update
+    ```
+4. Run the API:
+    ```bash
+    dotnet run
+    ```
 
-### Clone the Repository
-```bash
-git clone https://github.com/maheshkumarsingh/MeetYourMatch.git
+> API will be available at `https://localhost:5001`
+
+---
+
+### 🖥️ Frontend Setup (Angular)
+1. Navigate to the client project:
+    ```bash
+    cd Client
+    ```
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+3. Run the Angular development server:
+    ```bash
+    ng serve --ssl true
+    ```
+
+> App will run at `https://localhost:4200`
+
+---
+
+## 🌐 Deployment
+
+- ✅ **Live URL**: [https://meet-your-match.azurewebsites.net](https://meet-your-match.azurewebsites.net)
+- Angular build output is configured to go to `API/wwwroot` using Angular’s `outputPath`.
+- Hosted on **Azure App Service**
+- Supports both Linux (Nginx + Kestrel) and Windows (IIS) deployments
+
+---
+
+## 📚 Course Reference
+
+This application was built as part of a **project-based course** updated for .NET 8 and Angular 17/18. It covers building a full-stack dating application using modern technologies and best practices.
+
+> _"The absolute best course for building an API in .NET Core and working with Angular."_ – Jim  
+> _"Real-world experience using technologies that are in demand."_ – Daniyal
+
+---
+
+## 🙋‍♂️ Author
+
+**Mahesh Kumar Singh**  
+🔗 [LinkedIn](https://www.linkedin.com/in/maheshkumarsingh/)  
+🌐 [Live App](https://meet-your-match.azurewebsites.net)  
+📁 [GitHub Repo](https://github.com/maheshkumarsingh/MeetYourMatch)
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
+
+---
+
+## ⭐ Contributions
+
+Contributions, issues, and feature requests are welcome!  
+If you like this project, don’t forget to ⭐ the repo and share it with others.
+
